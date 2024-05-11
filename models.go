@@ -17,6 +17,5 @@ type Book struct {
 	Price           string
 	PublicationYear string
 	Genre           string
-	Available       bool
 	AddedAt         time.Time
 }
