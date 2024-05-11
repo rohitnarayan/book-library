@@ -52,13 +52,13 @@ func (l *Library) SearchByGenre(name string) ([]Book, error) {
 	return books, nil
 }
 
-func (l *Library) SearchByTitle(name string) (Book, error) {
+func (l *Library) SearchByTitle(name string) ([]Book, error) {
 	books, err := l.inventory.Search("title", name)
 	if err != nil {
-		return Book{}, fmt.Errorf("failed to search books by title: %s", name)
+		return []Book{}, fmt.Errorf("failed to search books by title: %s", name)
 	}
 
-	return books[0], nil
+	return books, nil
 }
 
 func (l *Library) GetAllBooks() []Book {

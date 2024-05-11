@@ -56,9 +56,6 @@ func (db *inMemoryDB) Add(requests []AddBookRequest) ([]Book, error) {
 }
 
 func (db *inMemoryDB) Remove(ID string) error {
-	db.lock.Lock()
-	defer db.lock.Unlock()
-
 	book, ok := db.booksMap[ID]
 	if !ok {
 		return ErrBookNotFound
