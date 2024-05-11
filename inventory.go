@@ -18,7 +18,7 @@ type BookInventory interface {
 	Add(request []AddBookRequest) ([]Book, error)
 	Remove(ID string) error
 	Search(attribute, attributeVal string) ([]Book, error)
-	AllBooks() ([]Book, error)
+	AllBooks() []Book
 }
 
 type inMemoryDB struct {
@@ -88,18 +88,22 @@ func (db *inMemoryDB) Search(attribute, attributeVal string) ([]Book, error) {
 		if booksIds, ok := db.authorIndex[attributeVal]; ok {
 			return db.getBookByIDs(booksIds), nil
 		}
+	case "id":
+		if book, ok := db.booksMap[attributeVal]; ok {
+			return []Book{book}, nil
+		}
 	}
 
 	return []Book{}, ErrInvalidAttribute
 }
 
-func (db *inMemoryDB) AllBooks() ([]Book, error) {
+func (db *inMemoryDB) AllBooks() []Book {
 	var books []Book
 	for _, book := range db.booksMap {
 		books = append(books, book)
 	}
 
-	return books, nil
+	return books
 }
 
 func (db *inMemoryDB) getBookByIDs(ids []string) []Book {
