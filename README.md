@@ -21,8 +21,15 @@ This is a simple command-line interface (CLI) program for managing a library.
 
 Once the program is running, follow the on-screen instructions to perform various actions such as adding books, removing books, searching for books, or displaying all books.
 
+## Test
+``` 
+make test
+```
+
+
 ## Cleanup
 
 To clean up and remove the generated binary files, use the following command:
-````
+```
 make clean
+```
