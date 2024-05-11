@@ -134,9 +134,10 @@ func (db *inMemoryDB) addBook(req AddBookRequest) (Book, error) {
 		Authors:         req.Authors,
 		Price:           req.Price,
 		PublicationYear: req.PublicationYear,
-		Available:       true,
 		AddedAt:         time.Now().UTC(),
 	}
+
+	db.booksMap[book.ID] = book
 
 	return book, nil
 }
@@ -156,6 +157,8 @@ func (db *inMemoryDB) updateIndexes(operation string, book *Book) {
 func (db *inMemoryDB) addToIndex(book *Book) {
 	// update genre index
 	if books, ok := db.genreIndex[book.Genre]; !ok {
+		db.genreIndex[book.Genre] = []string{book.ID}
+	} else if ok {
 		books = append(books, book.ID)
 		db.genreIndex[book.Genre] = books
 	}
@@ -168,6 +171,8 @@ func (db *inMemoryDB) addToIndex(book *Book) {
 	// update author index
 	for _, author := range book.Authors {
 		if books, ok := db.authorIndex[author]; !ok {
+			db.authorIndex[author] = []string{book.ID}
+		} else if ok {
 			books = append(books, book.ID)
 			db.authorIndex[author] = books
 		}
